@@ -1,365 +1,228 @@
-# [💬 AI Real Estate Assistant App](https://ai-real-estate-assistant.streamlit.app/)
+# [🏡 Smart Property Advisor](https://smart-property-advisor.streamlit.app/)
 
 ## Overview
-The AI Real Estate Assistant is a conversational AI application designed to help real estate agencies assist potential buyers and renters in finding their ideal properties. The application uses natural language processing and machine learning to understand user preferences and recommend suitable properties from a database.
+Smart Property Advisor is an AI-powered conversational assistant designed to simplify the property discovery process for buyers and renters. It utilizes natural language understanding and retrieval-augmented generation (RAG) to deliver personalized property recommendations based on user preferences.
 
-For detailed project requirements and specifications, see the [Product Requirements Document](PRD.MD).
+For complete project goals and features, see the [Project Specs Document](PRD.MD).
 
-## Solution Architecture & Design Decisions
+---
 
-### Technical Solution Overview
+## Solution Design & Architecture
 
-The AI Real Estate Assistant implements a Retrieval-Augmented Generation (RAG) system that combines the strengths of large language models with structured property data to provide intelligent property recommendations through natural conversation.
+### Technical Overview
 
-| Component | Implementation | Why We Chose It |
-|-----------|----------------|-----------------|
-| Large Language Models | OpenAI GPT / Llama | Provides natural language understanding and human-like responses with reasoning capabilities |
-| Data Processing | Pandas | Industry-standard for handling tabular data with powerful querying and transformation features |
-| Vector Embeddings | FastEmbed | Efficient, lightweight embedding generation for semantic search capabilities |
-| Vector Storage | DocArrayInMemorySearch, ChromaDB | In-memory solution for quick retrieval in demonstration environments |
-| Conversation Chain | ConversationalRetrievalChain | Maintains context across multiple turns of conversation with memory |
-| Web Interface | Streamlit | Rapid development of interactive web applications with minimal code |
+This project combines LLMs with structured property data, embedding-based search, and a friendly UI to create a seamless real estate advisory experience.
 
-### System Workflow
+| Component         | Tool/Library                     | Reason for Choice |
+|------------------|----------------------------------|-------------------|
+| LLM Integration  | OpenAI GPT / LLaMA               | High-quality language understanding and generation |
+| Data Handling    | Pandas                           | Robust data wrangling capabilities |
+| Embeddings       | FastEmbed                        | Fast, lightweight embeddings for semantic search |
+| Vector Store     | ChromaDB / DocArrayInMemorySearch| Quick, in-memory vector retrieval |
+| Memory Chain     | ConversationalRetrievalChain     | Retains dialogue history for multi-turn interactions |
+| Frontend         | Streamlit                        | Easy to develop and deploy interactive web UIs |
 
-1. **Data Loading & Preprocessing**:
-   - CSV data is loaded and normalized using Pandas
-   - Properties are transformed into vector embeddings using FastEmbed
-   - Embeddings are stored in a vector database for efficient similarity search
+---
 
-2. **Conversation Handling**:
-   - User queries are processed through the LLM to extract preferences
-   - Preferences are used to query the property database
-   - Results are formatted and presented in a conversational manner
+### Workflow Summary
 
-3. **Retrieval Enhancement**:
-   - V2 implements RAG to combine retrieved property information with LLM generation
-   - This produces more relevant and accurate responses than pure LLM generation
+1. **Preprocessing**:
+   - Load and clean property data (CSV)
+   - Convert listings to vector embeddings
+   - Store vectors in memory for similarity search
 
-## Features
-- **Natural Language Conversation**: Engage users in a natural conversation about their property preferences
-- **Property Search & Filtering**: Search properties based on location, budget, type, features, and more
-- **Multiple Data Sources**: Support for local CSV files and external data sources via URLs
-- **Flexible LLM Integration**: Support for OpenAI GPT models and open-source alternatives
-- **Responsive Web Interface**: Easy-to-use Streamlit-based user interface
+2. **User Interaction**:
+   - Users enter free-text queries
+   - The LLM extracts preferences and context
+   - Matching listings are retrieved and refined
+   - Results are presented with explanations
 
-## Strengths & Limitations
+3. **Retrieval-Augmented Generation**:
+   - Combines factual property data with natural language generation
+   - Produces accurate and helpful answers with grounding
 
-### Strengths
-1. **Natural Interaction**: Users can express preferences in natural language without learning complex search interfaces
-2. **Contextual Understanding**: System remembers previous interactions and builds cumulative understanding of user needs
-3. **Flexible Integration**: Works with various data sources and LLM providers, avoiding vendor lock-in
-4. **Explainable Recommendations**: Provides reasons why specific properties match user criteria
-5. **Rapid Development**: Architecture allows fast iteration and feature addition
+---
 
-### Limitations
-1. **Data Dependency**: Quality of recommendations depends heavily on the completeness and accuracy of property data
-2. **Cold Start Challenges**: Without sufficient initial information, recommendations may be too broad
-3. **Performance Issues**: Current implementation has a "db freeze" issue during heavy processing
-4. **Limited Visualization**: Currently text-based with limited visual property representation
-5. **Scaling Concerns**: In-memory vector store may face challenges with very large property databases
+## Core Features
 
-## Technology Stack
+- 🗣 **Conversational Search**: Users can describe their ideal property naturally.
+- 🧠 **Context Retention**: Understands user needs across multiple turns.
+- 🔍 **Rich Filtering**: Matches based on location, price, amenities, etc.
+- 🌐 **Multiple Model Support**: Integrates GPT, LLaMA, and others.
+- 💻 **Modern Web Interface**: Built with Streamlit for ease of use.
+
+---
+
+## Strengths & Constraints
+
+### ✅ Strengths
+
+- Natural and human-like interaction
+- Retains context and preferences
+- Scalable to multiple data sources
+- Explains recommendations clearly
+- Fast to prototype and iterate
+
+### ⚠️ Limitations
+
+- Results depend on data completeness
+- Needs sufficient user input to be accurate
+- UI freezes during large queries (performance bottleneck)
+- No image/visual comparisons yet
+- In-memory DB not suited for large datasets
+
+---
+
+## Tech Stack
+
 - **Frontend**: Streamlit
-- **Backend**: Python (3.11+)
-- **AI/ML**: LangChain, OpenAI GPT models, Llama models
-- **Data Processing**: Pandas, FastEmbed
-- **Vector Storage**: DocArrayInMemorySearch, ChromaDB
-- **Package Management**: Poetry
+- **Backend**: Python 3.11+
+- **AI Layer**: LangChain, GPT, LLaMA
+- **Data**: Pandas, FastEmbed
+- **Vector DB**: ChromaDB / DocArrayInMemorySearch
+- **Environment**: Poetry (Dependency & Environment Manager)
 
-## Project Structure
-```
-├── ai/                    # AI agent implementation
-├── app.py                 # V1 application
-├── app_v2.py              # V2 application
-├── assets/                # Screenshots and images
-├── common/                # Common configurations
-├── data/                  # Data loading modules
-├── dataset/               # Sample datasets
-├── pyproject.toml         # Poetry dependencies
-├── README.md              # This file
-├── PRD.MD                 # Product Requirements Document
-├── run_v1.sh              # Script to run V1
-├── run_v2.sh              # Script to run V2
-├── streaming.py           # Streaming utilities
-├── TODO.MD                # Todo list
-├── utils/                 # Utility scripts
-└── utils.py               # Helper functions
-```
+---
 
-## Project Versions
+## Directory Layout
+├── ai/ # LLM agent logic
+├── app.py # V1 - Basic agent
+├── app_v2.py # V2 - RAG-based assistant
+├── assets/ # Images & screenshots
+---
 
-### V1: Pandas DataFrame Agent
-- Used `langchain_experimental.agents.agent_toolkits.pandas.base.create_pandas_dataframe_agent`
-- Basic property search functionality with single-turn conversations
-- Run with: [run_v1.sh](run_v1.sh) | Application file: [app.py](app.py)
+## Application Versions
 
-![V1 Screenshot](assets/screen.png)
+### 🔹 V1: Basic Search Agent
+- Uses LangChain’s Pandas DataFrame Agent
+- Single-turn Q&A
+- Launched via `app.py` or `run_v1.sh`
 
-### V2: RAG with Multiple LLM Support
-- Uses different LLM models (OpenAI GPT, Llama)
-- Implements RAG with `ConversationalRetrievalChain` for multi-turn conversations
-- Enhanced property search and filtering capabilities
-- Run with: [run_v2.sh](run_v2.sh) | Application file: [app_v2.py](app_v2.py)
+![V1](assets/screen.png)
 
-![V2 Screenshot](assets/screen2.png)
+---
 
-## Future Development Roadmap
+### 🔷 V2: Conversational RAG Assistant
+- Uses ConversationalRetrievalChain
+- Supports OpenAI & open-source models
+- Enhanced filtering & multi-turn dialogue
+- Launched via `app_v2.py` or `run_v2.sh`
 
-| Priority | Feature | Technical Approach | Expected Impact |
-|----------|---------|-------------------|----------------|
-| High | Fix "db freeze" issue | Implement asynchronous processing and background tasks | Improved user experience with responsive UI |
-| High | Comprehensive testing suite | Add unit and integration tests with pytest | Enhanced reliability and easier maintenance |
-| Medium | Property visualization features | Integrate image handling and comparison views | Better user understanding of property options |
-| Medium | Multiple data source integration | Create adapters for RESTful APIs and additional file formats | Broader property selection and up-to-date data |
-| Medium | Advanced filtering capabilities | Enhance vector search with multi-dimensional preference modeling | More precise matching of user preferences |
-| Low | Market trend analysis | Add time-series analysis of property prices | Help users make better investment decisions |
+![V2](assets/screen2.png)
 
-### Addressing Current Limitations
+---
 
-1. **Performance Optimization**:
-   - Implement connection pooling for database operations
-   - Add request queuing system for high traffic scenarios
-   - Optimize embedding generation with batching
+## Future Enhancements
 
-2. **Enhanced User Experience**:
-   - Add property comparison view for side-by-side evaluation
-   - Implement proactive suggestions based on user history
-   - Develop mobile-optimized interface
+| Priority | Feature                  | Plan                                  | Impact |
+|----------|--------------------------|---------------------------------------|--------|
+| 🔴 High  | Async backend             | Use background tasks for heavy ops    | Smoother UI |
+| 🟡 Med   | Visual property previews  | Add image previews and comparisons    | Improved UX |
+| 🟡 Med   | Multiple data inputs      | REST API, JSON, XLSX support          | More data coverage |
+| 🟢 Low   | Investment insights       | Price trend analysis w/ time series   | More value for users |
+| 🟢 Low   | Mobile-ready UI           | Responsive layout for phones/tablets  | Wider access |
 
-3. **Data Enrichment**:
-   - Integrate with mapping services for location visualization
-   - Add neighborhood statistics and amenity details
-   - Include historical price trends and future projections
+---
 
-[//]: # (![demo.gif]&#40;assets/demo.gif&#41;)
+## Key Implementation Notes
 
-## Architecture
-The application follows a modular architecture with the following components:
+| Challenge                        | Solution                            | Approach |
+|----------------------------------|-------------------------------------|----------|
+| Extracting user preferences      | Function calling with LLMs          | NLP + JSON parsing |
+| Maintaining context              | LangChain memory system             | Buffer memory |
+| Scalable search                  | Embedding-based vector lookup       | FastEmbed + ChromaDB |
+| Diverse CSV formats              | Normalized data schema              | Unified loader |
+| Performance issues               | Caching + batch processing          | Optimization layer |
 
-1. **User Interface**: Streamlit-based web interface
-2. **AI Agent**: LLM-powered conversational agent
-3. **Data Processing**: CSV loaders and data formatters
-4. **Data Storage**: In-memory database and vector stores
+---
 
-## Solution Comparison & Technical Considerations
+## Developer Best Practices
 
-### Implementation Evolution
+- **Modular Design**:
+  ```python
+  def load_csv_data(path: str) -> pd.DataFrame:
+      """Read and normalize data for AI use."""
+Extensible AI Layer:
 
-| Aspect | V1 Implementation | V2 Implementation | Benefits of V2 |
-|--------|-------------------|-------------------|---------------|
-| Agent Type | Pandas DataFrame Agent | ConversationalRetrievalChain | Improved conversation memory and context retention |
-| LLM Integration | Limited to OpenAI | Multiple model support (OpenAI, Llama) | Greater flexibility and cost options |
-| Conversation Mode | Single-turn | Multi-turn with history | More natural conversation flow and follow-up questions |
-| Result Quality | Basic data filtering | Enhanced reasoning with RAG | More relevant and personalized recommendations |
-| Technical Complexity | Lower | Higher | More powerful but requires more careful implementation |
+python
+Copy
+Edit
+class SmartAgent:
+    """Supports pluggable LLMs for flexibility."""
+Secure Config Handling:
 
-### Alternative Approaches Considered
+python
+Copy
+Edit
+def get_api_key():
+    return os.getenv("OPENAI_API_KEY")
+Graceful Error Handling:
 
-| Approach | Pros | Cons | Why We Chose Our Approach |
-|----------|------|------|---------------------------|
-| Traditional Search Interface | Simpler implementation, faster queries | Limited understanding of complex preferences, requires user training | Our conversational approach provides better user experience and more intuitive interaction |
-| Pure LLM Without RAG | Simpler architecture, fewer components | Hallucinations, less accurate property details | RAG provides factual grounding and prevents misinformation |
-| SQL Database Only | Mature technology, optimized queries | Limited semantic understanding, rigid query structure | Vector database enables similarity search based on semantic meaning |
-| External API Integration | Access to real-time data | Dependency on third-party services, potential costs | Local CSV processing provides control and predictability for demonstrations |
+python
+Copy
+Edit
+try:
+    response = agent.respond(query)
+except:
+    return "Apologies, something went wrong."
+Getting Started
+Prerequisites
+Python 3.11+
 
-## Demo Highlights & Talking Points
+Poetry (https://python-poetry.org)
 
-When presenting this solution, focus on:
+(Optional) OpenAI API Key
 
-1. **Natural Conversation Flow**: Show how users can express complex requirements naturally
-   - Example: "I need a 2-bedroom apartment in the city center with a parking space under $1500"
+Installation
+sh
+Copy
+Edit
+# Clone the repo
+git clone https://github.com/your-username/smart-property-advisor.git
+cd smart-property-advisor
 
-2. **Preference Refinement**: Demonstrate how the system narrows recommendations as users provide more details
-   - Example: Start broad with "apartments in Warsaw" then refine with budget, amenities, etc.
-
-3. **Context Retention**: Highlight how the assistant remembers previous statements
-   - Example: User asks about parking after discussing a property, system knows which property they're referring to
-
-4. **Reasoning Capabilities**: Show how it explains why properties match criteria
-   - Example: "This property matches 90% of your criteria: it has the parking and 2 bedrooms you wanted, though it's slightly above your budget"
-
-5. **Technical Architecture**: Briefly explain the RAG approach and how it prevents hallucinations
-
-## Data Format
-The application uses CSV datasets with the following structure. Datasets can be loaded from local files or remote URLs.
-## DataFrame Columns
-
-This table describes the columns in the DataFrame:
-
-| Column Name              | Description                                |
-|--------------------------|--------------------------------------------|
-| `id`                     | Unique identifier for each record.         |
-| `city`                   | Name of the city where the property is located. |
-| `type`                   | Type of property (e.g., apartment, house). |
-| `square_meters`          | Area of the property in square meters.     |
-| `rooms`                  | Number of rooms in the property.           |
-| `floor`                  | Floor number where the property is located. |
-| `floor_count`            | Total number of floors in the building.    |
-| `build_year`             | Year the building was constructed.         |
-| `latitude`               | Latitude coordinate of the property.       |
-| `longitude`              | Longitude coordinate of the property.      |
-| `centre_distance`        | Distance from the property to the city center. |
-| `poi_count`              | Number of Points of Interest nearby.       |
-| `school_distance`        | Distance to the nearest school.            |
-| `clinic_distance`        | Distance to the nearest clinic.            |
-| `post_office_distance`   | Distance to the nearest post office.       |
-| `kindergarten_distance`  | Distance to the nearest kindergarten.      |
-| `restaurant_distance`    | Distance to the nearest restaurant.        |
-| `college_distance`       | Distance to the nearest college.           |
-| `pharmacy_distance`      | Distance to the nearest pharmacy.          |
-| `ownership`              | Type of ownership (e.g., condominium).     |
-| `building_material`      | Material used in the construction of the building. |
-| `condition`              | Condition of the property (e.g., new, good). |
-| `has_parking_space`      | Whether the property has a parking space (`True`/`False`). |
-| `has_balcony`            | Whether the property has a balcony (`True`/`False`). |
-| `has_elevator`           | Whether the building has an elevator (`True`/`False`). |
-| `has_security`           | Whether the property has security (`True`/`False`). |
-| `has_storage_room`       | Whether the property has a storage room (`True`/`False`). |
-| `price`                  | Price of the property.                     |
-| `price_media`            | Median price of similar properties.        |
-| `price_delta`            | Difference between the property's price and `price_media`. |
-| `negotiation_rate`       | Possibility of negotiation (e.g., High, Medium, Low). |
-| `bathrooms`              | Number of bathrooms in the property.       |
-| `owner_name`             | Name of the property owner.                |
-| `owner_phone`            | Contact phone number of the property owner. |
-| `has_garden`             | Whether the property has a garden (`True`/`False`). |
-| `has_pool`               | Whether the property has a pool (`True`/`False`). |
-| `has_garage`             | Whether the property has a garage (`True`/`False`). |
-| `has_bike_room`          | Whether the property has a bike room (`True`/`False`). |
-
-
-
-## Technical Deep Dive
-
-### Key Implementation Challenges & Solutions
-
-| Challenge | Solution | Technical Details |
-|-----------|----------|-------------------|
-| Extracting Structured Preferences from Unstructured Text | LLM-based entity extraction | Using function-calling capabilities of GPT models to convert natural language to structured parameters |
-| Maintaining Conversation Context | ConversationBufferMemory | Storing and retrieving conversation history to inform subsequent responses |
-| Efficient Property Retrieval | Vector similarity search | Converting property descriptions to embeddings and finding semantic similarity to user queries |
-| Handling Multiple Data Formats | Standardized data schema | Normalizing diverse CSV formats to a consistent internal representation |
-| Performance Optimization | Result caching and parallelization | Implementing caching strategies to avoid redundant computations |
-
-### Code Architecture Principles
-
-1. **Modularity**: Separation of concerns between data loading, AI processing, and user interface
-   ```python
-   # Example from data/csv_loader.py
-   def load_csv_data(file_path: str) -> pd.DataFrame:
-       """Load and normalize CSV data from a file path"""
-       # Implementation follows Single Responsibility Principle
-   ```
-
-2. **Extensibility**: Designed for easy addition of new data sources or AI models
-   ```python
-   # Example from ai/agent.py
-   class PropertyAgent:
-       """Base agent class that can be extended with different LLM implementations"""
-       # Implementation follows Open/Closed Principle
-   ```
-
-3. **Configuration Management**: Centralized configuration via environment variables and config files
-   ```python
-   # Example from common/cfg.py
-   def get_api_key() -> str:
-       """Retrieve API key from environment with appropriate fallbacks"""
-       # Implementation follows best security practices
-   ```
-
-4. **Error Handling**: Robust error handling with graceful degradation
-   ```python
-   # Example strategy for handling API failures
-   try:
-       # Attempt primary model
-   except Exception:
-       # Fall back to alternative model or cached results
-   ```
-
-5. **Testing Strategy**: Unit tests for core components with integration testing for end-to-end flows
-
-## Getting Started
-
-### Prerequisites
-- Python 3.11 or later
-- [Poetry](https://python-poetry.org/) for dependency management
-- OpenAI API Key (optional, for GPT models)
-
-### Installation
-
-#### 1. Clone the repository
-```sh
-git clone https://github.com/AleksNeStu/ai-real-estate-assistant.git
-cd ai-real-estate-assistant
-```
-
-#### 2. Set up Poetry environment
-```sh
-# Install pip and poetry if needed
-python -m ensurepip --upgrade
-curl -sSL https://install.python-poetry.org | python3 - --version 1.7.0
-
-# Configure Poetry
-poetry config virtualenvs.in-project true
-poetry config virtualenvs.prompt 'ai-real-estate-assistant'
-
-# Install dependencies
+# Set up Poetry environment
 poetry install --no-root
-```
-
-#### 3. Activate the virtual environment
-```sh
 source .venv/bin/activate
-```
 
-#### 4. Set up environment variables
-Create a `.env` file in the project root with the following contents:
-```
-OPENAI_API_KEY=your-api-key-here
-```
-
-### Running the Application
-
-#### Local Development
-Run either version of the application:
-```sh
-# Run V1
+# Configure API Key
+echo "OPENAI_API_KEY=your-key" > .env
+Run the App
+sh
+Copy
+Edit
+# Launch version 1
 streamlit run app.py
-# OR
-./run_v1.sh
 
-# Run V2
+# OR version 2
 streamlit run app_v2.py
-# OR
-./run_v2.sh
-```
+Deployment
+Streamlit Cloud
+Deploy directly using Streamlit Cloud.
 
-For additional configuration options:
-```sh
-# Local run with custom settings
-./utils/run_local.sh
-```
-
-### Deployment
-
-#### Streamlit Cloud Deployment
-This application can be deployed to Streamlit Cloud. For details, see the [Streamlit Deployment Documentation](https://docs.streamlit.io/deploy).
-
-#### Docker Deployment
-```sh
-# Build and run Docker container
+Docker
+sh
+Copy
+Edit
 ./utils/run_docker.sh
-```
-
-#### Development Container
-```sh
-# Run in development container
+VS Code Dev Container
+sh
+Copy
+Edit
 ./utils/run_dev_container.sh
-```
+Contribution
+Open to community contributions. Fork, code, and send PRs! 🙌
 
-## Contributing
-Contributions are welcome! Please feel free to submit a Pull Request.
+License
+Licensed under the Apache License 2.0. See LICENSE for full terms.
 
-## License
-This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+yaml
+Copy
+Edit
+
+---
+
+Let me know if you want this tailored with **your GitHub link**, **your project name**, **screenshots replaced**, or want to **add a specific example user query** like:  
+> "Show me a 3-bedroom house with a garage in Brooklyn under $3000."
+
+I can also help convert this into a full **GitHub README**, **Notion template**, or **presentation pitch deck** if needed.
