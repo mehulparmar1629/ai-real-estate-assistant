@@ -177,9 +177,6 @@ Installation
 sh
 Copy
 Edit
-# Clone the repo
-git clone https://github.com/your-username/smart-property-advisor.git
-cd smart-property-advisor
 
 # Set up Poetry environment
 poetry install --no-root
